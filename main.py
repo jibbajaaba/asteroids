@@ -1,5 +1,7 @@
 import pygame
 from constants import *
+from player import Player
+
 
 def main():
     # Initialize pygame
@@ -11,6 +13,9 @@ def main():
     # dt = delta time
     dt = 0
 
+    # creates the player
+    player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
+
     # Game loop
     while True:
         # allows player to exit out of game loop
@@ -20,8 +25,13 @@ def main():
 
         # creates black background
         screen.fill("black")
+        # draws the player on the screen
+        player.draw(screen)
         pygame.display.flip()
-        # set clock object to 60 milliseconds and divide by 1000 to convert to seconds
+        """
+        set clock object to 60 milliseconds and divide by 1000 to convert to
+        seconds
+        """
         # save to dt
         dt = clock.tick(60) / 1000
 
