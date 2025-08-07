@@ -23,6 +23,8 @@ def main():
             if event.type == pygame.QUIT:
                 return
 
+        # call dt on Player update method to update movement
+        player.update(dt)
         # creates black background
         screen.fill("black")
         # draws the player on the screen
