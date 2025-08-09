@@ -13,6 +13,10 @@ def main():
     # dt = delta time
     dt = 0
 
+    updatable = pygame.sprite.Group()
+    drawable = pygame.sprite.Group()
+    Player.containers = (updatable, drawable)
+
     # creates the player
     player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
 
@@ -24,11 +28,13 @@ def main():
                 return
 
         # call dt on Player update method to update movement
-        player.update(dt)
+        updatable.update(dt)
         # creates black background
         screen.fill("black")
         # draws the player on the screen
-        player.draw(screen)
+        for drawables in drawable:
+            drawables.draw(screen)
+
         pygame.display.flip()
         """
         set clock object to 60 milliseconds and divide by 1000 to convert to
