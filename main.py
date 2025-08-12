@@ -54,6 +54,9 @@ def main():
         # save to dt
         dt = clock.tick(60) / 1000
 
-
+        for asteroid in asteroids:
+            if not asteroid.collision(player):
+                print("Game Over")
+                exit()
 if __name__ == "__main__":
     main()
