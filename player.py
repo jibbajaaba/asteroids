@@ -1,13 +1,20 @@
 import pygame
 from circleshape import CircleShape
 from shot import Shot
-from constants import PLAYER_RADIUS, PLAYER_TURN_SPEED, PLAYER_SPEED, PLAYER_SHOOT_SPEED
+from constants import (
+    PLAYER_RADIUS,
+    PLAYER_TURN_SPEED,
+    PLAYER_SPEED,
+    PLAYER_SHOOT_SPEED,
+    PLAYER_SHOOT_COOLDOWN
+)
 
 
 class Player(CircleShape):
     def __init__(self, x, y):
         super().__init__(x, y, PLAYER_RADIUS)
         self.rotation = 0
+        self.shoot_timer = 0
 
     # function to create a triangle but with a round hit box
     def triangle(self):
@@ -24,6 +31,8 @@ class Player(CircleShape):
 
     # function to update player rotation
     def update(self, dt):
+        # subtract delta time from shoot timer
+        self.shoot_timer -= dt
         keys = pygame.key.get_pressed()
 
         # negative delta time to get left rotation
@@ -40,7 +49,7 @@ class Player(CircleShape):
             self.move(-dt)
         # press space to call shoot function
         if keys[pygame.K_SPACE]:
-            self.shoot(dt)
+            self.shoot()
 
     # function to rotate player
     def rotate(self, dt):
@@ -54,7 +63,12 @@ class Player(CircleShape):
         self.position += forward * PLAYER_SPEED * dt
 
     # function to shoot from player position
-    def shoot(self, dt):
+    def shoot(self):
+        # makes it so player won't shoot if timer is greater then 0
+        if self.shoot_timer > 0:
+            return
+        # reset the timer once it is at 0
+        self.shoot_timer = PLAYER_SHOOT_COOLDOWN
         # shot based on player position
         shot = Shot(self.position.x, self.position.y)
         # shot velocity based on shot vector and player rotation
