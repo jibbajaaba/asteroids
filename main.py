@@ -58,8 +58,13 @@ def main():
         dt = clock.tick(60) / 1000
 
         for asteroid in asteroids:
+            for bullet in shots:
+                if not asteroid.collision(bullet):
+                    asteroid.kill()
             if not asteroid.collision(player):
                 print("Game Over")
                 exit()
+
+
 if __name__ == "__main__":
     main()
